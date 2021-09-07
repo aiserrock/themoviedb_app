@@ -7,11 +7,11 @@
 [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://github.com/tenhobi/effective_dart)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 
-Learning Flutter from LazyLoadFlutter youtube chanel. Lessons are taught by Senior mobile developer from VK (Евгений).
-Creaiting from zero complicated project with all best practices.
+Learning Flutter from LazyLoadFlutter youtube chanel. Lessons are taught by Senior mobile developer from VK (Евгений).  
+Creaiting from zero complicated project with all best practices.  
 
-LazyLoadFlutter (Евгений): https://www.youtube.com/c/LearnDartFlutter/about
-API: https://www.themoviedb.org/documentation/api?language=ru  
+LazyLoadFlutter (Евгений): https://www.youtube.com/c/LearnDartFlutter/about  
+API: https://www.themoviedb.org/documentation/api?language=ru    
 
 ## "Production level" implementations
 
