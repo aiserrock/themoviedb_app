@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/domain/entities/auth_model.dart';
 import 'package:themoviedb/presentation/pages/auth_page/auth.dart';
 import 'package:themoviedb/presentation/pages/movie_details_page/movie_details.dart';
 import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
@@ -14,7 +15,10 @@ class Routs {
 /// Роуты, в которые не нужно передавать данные, они основаны на DI
 final routes = <String, WidgetBuilder>{
   Routs.ROOT: (_) => RootNavigation(),
-  Routs.AUTH: (_) => Auth(),
+  Routs.AUTH: (_) => AuthProvider(
+        model: AuthModel(),
+        child: Auth(),
+      ),
   Routs.MOVIE_LIST: (_) => MovieList(),
 };
 

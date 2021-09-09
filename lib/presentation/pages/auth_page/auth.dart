@@ -3,7 +3,7 @@ import 'package:themoviedb/Theme/app_button_style.dart';
 import 'package:themoviedb/presentation/widgets/auth_page/form_widget.dart';
 
 class Auth extends StatefulWidget {
-  Auth({Key? key}) : super(key: key);
+  const Auth({Key? key}) : super(key: key);
 
   @override
   _AuthState createState() => _AuthState();
