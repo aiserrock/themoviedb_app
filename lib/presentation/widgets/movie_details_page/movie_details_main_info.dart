@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/presentation/general_widgets/radial_percent_widget.dart';
 import 'package:themoviedb/resources/resources.dart';
-import 'package:themoviedb/widgets/elements/radial_percent_widget.dart';
 
 class MovieDetailsMainInfoWidget extends StatelessWidget {
   const MovieDetailsMainInfoWidget({Key? key}) : super(key: key);
@@ -139,22 +139,23 @@ class _OverviewWidget extends StatelessWidget {
 }
 
 class _PeopleWidget extends StatelessWidget {
-  const _PeopleWidget({
+  _PeopleWidget({
     Key? key,
   }) : super(key: key);
 
+  final nameStyle = TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
+  final jobTitleStyleStyle = TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
+
   @override
   Widget build(BuildContext context) {
-    final nameStyle = TextStyle(
-      color: Colors.white,
-      fontSize: 16,
-      fontWeight: FontWeight.w600,
-    );
-    final jobTitleStyleStyle = TextStyle(
-      color: Colors.white,
-      fontSize: 16,
-      fontWeight: FontWeight.w600,
-    );
     return Column(
       children: [
         Row(

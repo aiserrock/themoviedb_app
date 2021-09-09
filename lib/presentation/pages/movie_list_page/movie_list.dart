@@ -1,30 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:themoviedb/domain/entities/movie.dart';
+import 'package:themoviedb/presentation/navigator/router.dart';
+import 'package:themoviedb/presentation/widgets/movie_list_page/SearchWidget.dart';
 import 'package:themoviedb/resources/resources.dart';
 
-class Movie {
-  final int id;
-  final String imageName;
-  final String title;
-  final String time;
-  final String description;
-
-  Movie(
-      {required this.id,
-      required this.imageName,
-      required this.title,
-      required this.time,
-      required this.description});
-}
-
-class MovieListWidget extends StatefulWidget {
-  MovieListWidget({Key? key}) : super(key: key);
+class MovieList extends StatefulWidget {
+  MovieList({Key? key}) : super(key: key);
 
   @override
-  _MovieListWidgetState createState() => _MovieListWidgetState();
+  _MovieListState createState() => _MovieListState();
 }
 
-class _MovieListWidgetState extends State<MovieListWidget> {
+class _MovieListState extends State<MovieList> {
   final _movies = [
     Movie(
       id: 1,
@@ -124,7 +111,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
   void _onMovieTap(int index) {
     final id = _movies[index].id;
     Navigator.of(context).pushNamed(
-      '/main_screen/movie_details',
+      Routs.MOVIE_DETAIL,
       arguments: id,
     );
   }
@@ -147,106 +134,114 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           itemExtent: 163,
           itemBuilder: (BuildContext context, int index) {
             final movie = _filteredMovies[index];
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
-              ),
-              child: Stack(
+            return buildCard(movie, index);
+          },
+        ),
+        SearchWidget(searchController: _searchController),
+      ],
+    );
+  }
+
+  Padding buildCard(Movie movie, int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 16,
+      ),
+      child: Stack(
+        children: [
+          CardWidget(movie: movie),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () => _onMovieTap(index),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CardWidget extends StatelessWidget {
+  const CardWidget({
+    Key? key,
+    required this.movie,
+  }) : super(key: key);
+
+  final Movie movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: Colors.black.withOpacity(0.2),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: Offset(0, 2),
+          ),
+        ],
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Row(
+          children: [
+            Image(
+              image: AssetImage(movie.imageName),
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.black.withOpacity(0.2),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Row(
-                        children: [
-                          Image(
-                            image: AssetImage(movie.imageName),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  movie.title,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  movie.time,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  movie.description,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                        ],
-                      ),
-                    ),
+                  SizedBox(
+                    height: 20,
                   ),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () => _onMovieTap(index),
+                  Text(
+                    movie.title,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    movie.time,
+                    style: TextStyle(
+                      color: Colors.grey,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    movie.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
-            );
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              labelText: 'Search',
-              filled: true,
-              fillColor: Colors.white.withAlpha(235),
             ),
-          ),
+            SizedBox(
+              width: 15,
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

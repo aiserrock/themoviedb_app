@@ -33,22 +33,7 @@ class MovieDetailsMainScreenCastWidget extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.all(8),
                     child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.black.withOpacity(0.2),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 8,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
+                      decoration: cardDecoration(),
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         clipBehavior: Clip.hardEdge,
@@ -100,6 +85,24 @@ class MovieDetailsMainScreenCastWidget extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  BoxDecoration cardDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      border: Border.all(
+        color: Colors.black.withOpacity(0.2),
+      ),
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 8,
+          offset: Offset(0, 2),
+        ),
+      ],
+      borderRadius: BorderRadius.all(
+        Radius.circular(10),
       ),
     );
   }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/widgets/movie_list/movie_list_widget.dart';
+import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
 
-class MainScreenWidget extends StatefulWidget {
-  const MainScreenWidget({Key? key}) : super(key: key);
+class RootNavigation extends StatefulWidget {
+  const RootNavigation({Key? key}) : super(key: key);
 
   @override
-  _MainScreenWidgetState createState() => _MainScreenWidgetState();
+  _RootNavigationState createState() => _RootNavigationState();
 }
 
-class _MainScreenWidgetState extends State<MainScreenWidget> {
+class _RootNavigationState extends State<RootNavigation> {
   int _selectedTab = 0;
 
   void onSelectTab(int index) {
@@ -30,7 +30,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           Text(
             'Index 0: News',
           ),
-          MovieListWidget(),
+          MovieList(),
           Text(
             'Index 2: Tv shows',
           ),
