@@ -3,7 +3,7 @@ import 'dart:io';
 
 class ApiClient {
   final _client = HttpClient();
-  static const _host = 'https://api.themoviedb.org/3';
+  static const _host = 'https://api.themoviedb.org/3/';
   static const _imageUrl = 'https://image.tmdb.org/t/p/w500';
   static const _apiKey = '73024877558036b4787e808716039caf';
 
@@ -71,7 +71,7 @@ class ApiClient {
     required String requestToken,
   }) async {
     final url = _makeUri(
-      'authentication/authentication/session/new',
+      'authentication/session/new',
       <String, dynamic>{'api_key': _apiKey},
     );
     final parameters = <String, dynamic>{

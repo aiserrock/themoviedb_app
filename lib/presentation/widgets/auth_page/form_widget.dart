@@ -7,7 +7,7 @@ class FormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = AuthProvider.read(context);
+    final model = NotifierProvider.read<AuthModel>(context);
     final textStyle = const TextStyle(
       fontSize: 16,
       color: Color(0xFF212529),
@@ -28,7 +28,7 @@ class FormWidget extends StatelessWidget {
         ),
         SizedBox(height: 5),
         TextField(
-          controller: model?.model.loginTextController,
+          controller: model?.loginTextController,
           decoration: textFieldDecorator,
         ),
         SizedBox(height: 20),
@@ -38,7 +38,7 @@ class FormWidget extends StatelessWidget {
         ),
         SizedBox(height: 5),
         TextField(
-          controller: model?.model.passwordTextController,
+          controller: model?.passwordTextController,
           decoration: textFieldDecorator,
           obscureText: true,
         ),
@@ -67,7 +67,7 @@ class _AuthButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorBlue = const Color(0xFF01B4E4);
-    final model = AuthProvider.watch(context)?.model;
+    final model = NotifierProvider.watch<AuthModel>(context);
     final onPressed =
         model?.canStartAuth == true ? () => model?.auth(context) : null;
     final child = model?.isAuthProgress == true
@@ -80,7 +80,7 @@ class _AuthButtonWidget extends StatelessWidget {
           )
         : const Text('Login');
     return ElevatedButton(
-      onPressed: () => onPressed,
+      onPressed: onPressed,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(colorBlue),
         foregroundColor: MaterialStateProperty.all(Colors.white),
@@ -104,7 +104,7 @@ class _ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage = AuthProvider.watch(context)?.model.errorMessage;
+    final errorMessage = NotifierProvider.watch<AuthModel>(context)?.errorMessage;
     if (errorMessage == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
 
+import 'domain/data_providers/session_data_provider.dart';
+
 class RootNavigation extends StatefulWidget {
   const RootNavigation({Key? key}) : super(key: key);
 
@@ -23,6 +25,11 @@ class _RootNavigationState extends State<RootNavigation> {
     return Scaffold(
       appBar: AppBar(
         title: Text('TMDB'),
+        centerTitle: true,
+        actions: [
+          IconButton(onPressed: () => SessionDataProvider().setSessionId(null),
+              icon: const Icon(Icons.search),),
+        ],
       ),
       body: IndexedStack(
         index: _selectedTab,

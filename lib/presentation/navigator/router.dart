@@ -6,19 +6,18 @@ import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
 import 'package:themoviedb/root_navigation.dart';
 
 class Routs {
-  static const AUTH = '/auth_page';
+  static const AUTH = 'auth_page';
   static const ROOT = '/';
   static const MOVIE_DETAIL = '/movie_list_page/movie_detail_page';
   static const MOVIE_LIST = '/movie_list_page';
+
+  static String initialRoute(bool isAuth) => isAuth ? Routs.ROOT : Routs.AUTH;
 }
 
 /// Роуты, в которые не нужно передавать данные, они основаны на DI
 final routes = <String, WidgetBuilder>{
   Routs.ROOT: (_) => RootNavigation(),
-  Routs.AUTH: (_) => AuthProvider(
-        model: AuthModel(),
-        child: Auth(),
-      ),
+  Routs.AUTH: (_) => NotifierProvider(model: AuthModel(), child: Auth()),
   Routs.MOVIE_LIST: (_) => MovieList(),
 };
 

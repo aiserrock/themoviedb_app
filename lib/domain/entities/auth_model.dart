@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
 import 'package:themoviedb/domain/data_providers/session_data_provider.dart';
+import 'package:themoviedb/presentation/navigator/router.dart';
 
 class AuthModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   final _sessionDataProvider = SessionDataProvider();
-  final loginTextController = TextEditingController(text: 'aicserrock');
-  final passwordTextController = TextEditingController(text: 'stalker1');
+  final loginTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
   String? _errorMessage;
 
   bool _isAuthProgress = false;
@@ -48,34 +50,28 @@ class AuthModel extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    _sessionDataProvider.sessionId = sessionId;
-    //Navigator.of(context)
+    await _sessionDataProvider.setSessionId(sessionId);
+    unawaited(Navigator.of(context).popAndPushNamed(Routs.ROOT));
   }
 }
 
-class AuthProvider extends InheritedNotifier {
-  final AuthModel model;
 
-  const AuthProvider({
+class NotifierProvider<Model extends ChangeNotifier> extends InheritedNotifier {
+  final Model model;
+
+  const NotifierProvider({
     Key? key,
     required this.model,
     required Widget child,
   }) : super(key: key, notifier: model, child: child);
 
-  static AuthProvider? watch(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<AuthProvider>();
+  static Model? watch<Model extends ChangeNotifier>(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<NotifierProvider<Model>>()?.model;
   }
 
-  static AuthProvider? read(BuildContext context) {
+  static Model? read<Model extends ChangeNotifier>(BuildContext context) {
     final widget =
-        context.getElementForInheritedWidgetOfExactType<AuthProvider>()?.widget;
-    return widget is AuthProvider ? widget : null;
-  }
-
-  static AuthProvider of(BuildContext context) {
-    final AuthProvider? result =
-        context.dependOnInheritedWidgetOfExactType<AuthProvider>();
-    assert(result != null, 'No AuthProvider found in context');
-    return result!;
+        context.getElementForInheritedWidgetOfExactType<NotifierProvider<Model>>()?.widget;
+    return widget is NotifierProvider<Model> ? widget.model : null;
   }
 }
