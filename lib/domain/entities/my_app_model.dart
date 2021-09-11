@@ -1,4 +1,4 @@
-import 'package:themoviedb/domain/data_providers/session_data_provider.dart';
+import 'package:themoviedb/data/helpers/data_providers/session_data_provider.dart';
 
 /// Класс предназначен для проверки аутентификации
 class MyAppModel{

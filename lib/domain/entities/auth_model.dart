@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pedantic/pedantic.dart';
-import 'package:themoviedb/domain/api_client/api_client.dart';
-import 'package:themoviedb/domain/data_providers/session_data_provider.dart';
+import 'package:themoviedb/data/helpers/data_providers/session_data_provider.dart';
+import 'package:themoviedb/data/repositories/user_remote_repository.dart';
 import 'package:themoviedb/presentation/navigator/router.dart';
 
 class AuthModel extends ChangeNotifier {
-  final _apiClient = ApiClient();
+  final _apiClient = UserRemoteRepositoryImpl();
   final _sessionDataProvider = SessionDataProvider();
   final loginTextController = TextEditingController();
   final passwordTextController = TextEditingController();
@@ -36,42 +36,33 @@ class AuthModel extends ChangeNotifier {
         username: login,
         password: password,
       );
+    } on ApiClientException catch (e) {
+      switch (e.type) {
+        case ApiClientExceptionType.Network:
+          _errorMessage = 'Server not allow. Check internet connection';
+          break;
+        case ApiClientExceptionType.Auth:
+          _errorMessage = 'Login or password incorrect';
+          break;
+        case ApiClientExceptionType.Other:
+          _errorMessage = 'Unknown error. Pleas repeat your attempt';
+          break;
+      }
     } catch (e) {
-      _errorMessage = 'Auth error';
+      _errorMessage = 'Unknown error';
     }
 
     _isAuthProgress = false;
-    if(_errorMessage != null) {
+    if (_errorMessage != null) {
       notifyListeners();
       return;
     }
-    if(sessionId == null){
-      _errorMessage ='Unknown error, pleas repeat attempt';
+    if (sessionId == null) {
+      _errorMessage = 'Unknown error, pleas repeat attempt';
       notifyListeners();
       return;
     }
     await _sessionDataProvider.setSessionId(sessionId);
     unawaited(Navigator.of(context).popAndPushNamed(Routs.ROOT));
-  }
-}
-
-
-class NotifierProvider<Model extends ChangeNotifier> extends InheritedNotifier {
-  final Model model;
-
-  const NotifierProvider({
-    Key? key,
-    required this.model,
-    required Widget child,
-  }) : super(key: key, notifier: model, child: child);
-
-  static Model? watch<Model extends ChangeNotifier>(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<NotifierProvider<Model>>()?.model;
-  }
-
-  static Model? read<Model extends ChangeNotifier>(BuildContext context) {
-    final widget =
-        context.getElementForInheritedWidgetOfExactType<NotifierProvider<Model>>()?.widget;
-    return widget is NotifierProvider<Model> ? widget.model : null;
   }
 }

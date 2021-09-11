@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
 
-import 'domain/data_providers/session_data_provider.dart';
+import 'data/helpers/data_providers/session_data_provider.dart';
 
 class RootNavigation extends StatefulWidget {
   const RootNavigation({Key? key}) : super(key: key);
