@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pedantic/pedantic.dart';
+import 'package:themoviedb/data/helpers/api_client/api_client.dart';
 import 'package:themoviedb/data/helpers/data_providers/session_data_provider.dart';
 import 'package:themoviedb/data/repositories/user_remote_repository.dart';
 import 'package:themoviedb/presentation/navigator/router.dart';

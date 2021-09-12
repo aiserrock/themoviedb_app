@@ -8,7 +8,7 @@ Learning Flutter from LazyLoadFlutter youtube chanel. Lessons are taught by Seni
 Creaiting from zero complicated project with all best practices.  
 
 LazyLoadFlutter (Евгений): https://www.youtube.com/c/LearnDartFlutter/about  
-API: https://www.themoviedb.org/documentation/api?language=ru    
+API: https://developers.themoviedb.org/3/movies/get-popular-movies
 
 ## Screenshots
 
