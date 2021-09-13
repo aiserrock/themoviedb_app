@@ -23,12 +23,15 @@ class _RootNavigationState extends State<RootNavigation> {
     });
   }
 
-
   @override
   void initState() {
     super.initState();
-    movieListModel.loadMovies();
-    print('');
+
+  }
+
+  @override
+  void didChangeDependencies() {
+    movieListModel.setupLocale(context);
   }
 
   @override

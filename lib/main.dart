@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:themoviedb/presentation/widgets/app/provider/my_app_model.dart';
 import 'package:themoviedb/presentation/navigator/router.dart';
 import 'package:themoviedb/theme/theme.dart';
@@ -26,6 +27,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: const[
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const[
+        Locale('ru','RU'),
+        Locale('en','US')
+      ],
       theme: ThemeData(
         appBarTheme: buildAppBarTheme(),
         bottomNavigationBarTheme: buildBottomNavigationBarThemeData(),

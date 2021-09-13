@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:themoviedb/data/helpers/api_client/api_client.dart';
 import 'package:themoviedb/data/helpers/universal_inherits.dart';
 import 'package:themoviedb/domain/entities/movie.dart';
 import 'package:themoviedb/presentation/widgets/movie_list_page/SearchWidget.dart';
@@ -10,7 +13,7 @@ class MovieList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieListModel>(context);
-    if(model == null) return SizedBox.shrink();
+    if (model == null) return SizedBox.shrink();
     return Stack(
       children: [
         ListView.builder(
@@ -20,16 +23,16 @@ class MovieList extends StatelessWidget {
           itemExtent: 163,
           itemBuilder: (BuildContext context, int index) {
             final movie = model.movies[index];
-            return buildCard(context, movie, index,model);
+            return buildCard(context, movie, index, model);
           },
         ),
         SearchWidget(),
       ],
-
     );
   }
 
-  Padding buildCard(BuildContext context,Movie movie, int index, MovieListModel? model) {
+  Padding buildCard(
+      BuildContext context, Movie movie, int index, MovieListModel model) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
@@ -37,12 +40,12 @@ class MovieList extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          CardWidget(movie: movie),
+          CardWidget(movie: movie,model: model),
           Material(
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () => model?.onMovieTap(context, index),
+              onTap: () => model.onMovieTap(context, index),
             ),
           ),
         ],
@@ -55,9 +58,11 @@ class CardWidget extends StatelessWidget {
   const CardWidget({
     Key? key,
     required this.movie,
+    required this.model,
   }) : super(key: key);
 
   final Movie movie;
+  final MovieListModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +87,10 @@ class CardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Row(
           children: [
-            // Image(image: AssetImage(movie.imageName)),
+            movie.posterPath != null
+                ? Image.network(ApiClient.imageUrl(movie.posterPath!),
+                    width: 95)
+                : const SizedBox.shrink(),
             SizedBox(width: 15),
             Expanded(
               child: Column(
@@ -99,7 +107,11 @@ class CardWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    movie.releaseDate?.toString() ?? '636363663',
+                    //this is not optimal, move in model this
+                    // movie.releaseDate != null
+                    //     ? DateFormat.yMMMMd().format(movie.releaseDate!)
+                    //     : '',
+                    model.stringFromDate(movie.releaseDate),
                     style: TextStyle(color: Colors.grey),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
