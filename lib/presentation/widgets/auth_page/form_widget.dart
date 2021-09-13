@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/Theme/app_button_style.dart';
 import 'package:themoviedb/presentation/widgets/auth_page/provider/auth_model.dart';
-import 'package:themoviedb/data/helpers/universal_inherits.dart';
+import 'package:themoviedb/data/helpers/custom_provider.dart';
 
 class FormWidget extends StatelessWidget {
   const FormWidget({Key? key}) : super(key: key);

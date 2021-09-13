@@ -3,7 +3,7 @@ import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
 import 'package:themoviedb/presentation/widgets/movie_list_page/provider/movie_list_model.dart';
 
 import 'data/helpers/data_providers/session_data_provider.dart';
-import 'data/helpers/universal_inherits.dart';
+import 'data/helpers/custom_provider.dart';
 
 class RootNavigation extends StatefulWidget {
   const RootNavigation({Key? key}) : super(key: key);
@@ -26,11 +26,11 @@ class _RootNavigationState extends State<RootNavigation> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     movieListModel.setupLocale(context);
   }
 
@@ -53,7 +53,10 @@ class _RootNavigationState extends State<RootNavigation> {
           Text(
             'Index 0: News',
           ),
-          NotifierProvider(model: movieListModel, child: const MovieList()),
+          NotifierProvider(
+              isManagingModel: false,
+              create: () => movieListModel,
+              child: const MovieList()),
           Text(
             'Index 2: Tv shows',
           ),

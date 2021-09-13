@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:themoviedb/data/helpers/api_client/api_client.dart';
-import 'package:themoviedb/data/helpers/universal_inherits.dart';
+import 'package:themoviedb/data/helpers/custom_provider.dart';
 import 'package:themoviedb/domain/entities/movie.dart';
 import 'package:themoviedb/presentation/widgets/movie_list_page/SearchWidget.dart';
 import 'package:themoviedb/presentation/widgets/movie_list_page/provider/movie_list_model.dart';

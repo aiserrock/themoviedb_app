@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/presentation/widgets/auth_page/provider/auth_model.dart';
-import 'package:themoviedb/data/helpers/universal_inherits.dart';
+import 'package:themoviedb/data/helpers/custom_provider.dart';
 import 'package:themoviedb/presentation/pages/auth_page/auth.dart';
 import 'package:themoviedb/presentation/pages/movie_details_page/movie_details.dart';
 import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
+import 'package:themoviedb/presentation/widgets/movie_details_page/provider/movie_details_model.dart';
 import 'package:themoviedb/root_navigation.dart';
 
 class Routs {
@@ -18,7 +19,7 @@ class Routs {
 /// Роуты, в которые не нужно передавать данные, они основаны на DI
 final routes = <String, WidgetBuilder>{
   Routs.ROOT: (_) => RootNavigation(),
-  Routs.AUTH: (_) => NotifierProvider(model: AuthModel(), child: Auth()),
+  Routs.AUTH: (_) => NotifierProvider(create: () => AuthModel(), child: Auth()),
   Routs.MOVIE_LIST: (_) => MovieList(),
 };
 
@@ -29,14 +30,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case Routs.MOVIE_DETAIL:
       final arguments = settings.arguments;
+      final movieId = arguments is int ? arguments : 0;
       return MaterialPageRoute(
-        builder: (_) {
-          if (arguments is int) {
-            return MovieDetails(movieId: arguments);
-          }
-          return MovieDetails(movieId: 0);
-        },
-        settings: settings,
+        builder: (context) => NotifierProvider(
+          create: () => MovieDetailsModel(movieId),
+          child: const MovieDetails(),
+        ),
       );
     default:
       throw Exception("Route with name ${settings.name} doesn't exists");
