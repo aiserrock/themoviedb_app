@@ -1,148 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/data/helpers/universal_inherits.dart';
 import 'package:themoviedb/domain/entities/movie.dart';
-import 'package:themoviedb/presentation/navigator/router.dart';
 import 'package:themoviedb/presentation/widgets/movie_list_page/SearchWidget.dart';
-import 'package:themoviedb/resources/resources.dart';
+import 'package:themoviedb/presentation/widgets/movie_list_page/provider/movie_list_model.dart';
 
-class MovieList extends StatefulWidget {
-  MovieList({Key? key}) : super(key: key);
-
-  @override
-  _MovieListState createState() => _MovieListState();
-}
-
-class _MovieListState extends State<MovieList> {
-  final _movies = [
-    Movie(
-      id: 1,
-      imageName: AppImages.jungle,
-      title: 'Minecraft Jungle',
-      time: 'April 10 2012',
-      description: 'Dr. Lily Houghton enlists the aid of wisecracking'
-          ' skipper Frank Wolff to take her down the Amazon in'
-          ' his dilapidated boat. Together, they search for an'
-          ' ancient tree that holds the power to heal – a discovery'
-          ' that will change the future of medicine.',
-    ),
-    Movie(
-      id: 2,
-      imageName: AppImages.jungle,
-      title: 'Marcianin',
-      time: 'April 10 2012',
-      description: 'Dr. Lily Houghton enlists the aid of wisecracking'
-          ' skipper Frank Wolff to take her down the Amazon in'
-          ' his dilapidated boat. Together, they search for an'
-          ' ancient tree that holds the power to heal – a discovery'
-          ' that will change the future of medicine.',
-    ),
-    Movie(
-      id: 3,
-      imageName: AppImages.jungle,
-      title: 'Total War',
-      time: 'April 10 2012',
-      description: 'Dr. Lily Houghton enlists the aid of wisecracking'
-          ' skipper Frank Wolff to take her down the Amazon in'
-          ' his dilapidated boat. Together, they search for an'
-          ' ancient tree that holds the power to heal – a discovery'
-          ' that will change the future of medicine.',
-    ),
-    Movie(
-      id: 4,
-      imageName: AppImages.jungle,
-      title: 'Stalker ||',
-      time: 'April 10 2012',
-      description: 'Dr. Lily Houghton enlists the aid of wisecracking'
-          ' skipper Frank Wolff to take her down the Amazon in'
-          ' his dilapidated boat. Together, they search for an'
-          ' ancient tree that holds the power to heal – a discovery'
-          ' that will change the future of medicine.',
-    ),
-    Movie(
-      id: 5,
-      imageName: AppImages.jungle,
-      title: 'Intersteiler',
-      time: 'April 10 2012',
-      description: 'Dr. Lily Houghton enlists the aid of wisecracking'
-          ' skipper Frank Wolff to take her down the Amazon in'
-          ' his dilapidated boat. Together, they search for an'
-          ' ancient tree that holds the power to heal – a discovery'
-          ' that will change the future of medicine.',
-    ),
-    Movie(
-      id: 6,
-      imageName: AppImages.jungle,
-      title: 'American Pie 1',
-      time: 'April 10 2012',
-      description: 'Dr. Lily Houghton enlists the aid of wisecracking'
-          ' skipper Frank Wolff to take her down the Amazon in'
-          ' his dilapidated boat. Together, they search for an'
-          ' ancient tree that holds the power to heal – a discovery'
-          ' that will change the future of medicine.',
-    ),
-    Movie(
-      id: 7,
-      imageName: AppImages.jungle,
-      title: 'American Pie 2',
-      time: 'April 10 2012',
-      description: 'Dr. Lily Houghton enlists the aid of wisecracking'
-          ' skipper Frank Wolff to take her down the Amazon in'
-          ' his dilapidated boat. Together, they search for an'
-          ' ancient tree that holds the power to heal – a discovery'
-          ' that will change the future of medicine.',
-    ),
-  ];
-
-  var _filteredMovies = <Movie>[];
-
-  final _searchController = TextEditingController();
-
-  void _searchMovies() {
-    final query = _searchController.text;
-    if (query.isNotEmpty) {
-      _filteredMovies = _movies.where((Movie movie) {
-        return movie.title.toLowerCase().contains(query.toLowerCase());
-      }).toList();
-    } else {
-      _filteredMovies = _movies;
-    }
-    setState(() {});
-  }
-
-  void _onMovieTap(int index) {
-    final id = _movies[index].id;
-    Navigator.of(context).pushNamed(
-      Routs.MOVIE_DETAIL,
-      arguments: id,
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _filteredMovies = _movies;
-    _searchController.addListener(_searchMovies);
-  }
+class MovieList extends StatelessWidget {
+  const MovieList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieListModel>(context);
+    if(model == null) return SizedBox.shrink();
     return Stack(
       children: [
         ListView.builder(
           padding: EdgeInsets.only(top: 70),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          itemCount: _filteredMovies.length,
+          itemCount: model.movies.length,
           itemExtent: 163,
           itemBuilder: (BuildContext context, int index) {
-            final movie = _filteredMovies[index];
-            return buildCard(movie, index);
+            final movie = model.movies[index];
+            return buildCard(context, movie, index,model);
           },
         ),
-        SearchWidget(searchController: _searchController),
+        SearchWidget(),
       ],
+
     );
   }
 
-  Padding buildCard(Movie movie, int index) {
+  Padding buildCard(BuildContext context,Movie movie, int index, MovieListModel? model) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
@@ -155,7 +42,7 @@ class _MovieListState extends State<MovieList> {
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () => _onMovieTap(index),
+              onTap: () => model?.onMovieTap(context, index),
             ),
           ),
         ],
@@ -195,12 +82,8 @@ class CardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Row(
           children: [
-            Image(
-              image: AssetImage(movie.imageName),
-            ),
-            SizedBox(
-              width: 15,
-            ),
+            // Image(image: AssetImage(movie.imageName)),
+            SizedBox(width: 15),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,14 +97,10 @@ class CardWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  SizedBox(height: 5),
                   Text(
-                    movie.time,
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
+                    movie.releaseDate?.toString() ?? '636363663',
+                    style: TextStyle(color: Colors.grey),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -229,7 +108,7 @@ class CardWidget extends StatelessWidget {
                     height: 20,
                   ),
                   Text(
-                    movie.description,
+                    movie.overview,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

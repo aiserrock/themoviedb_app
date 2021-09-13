@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/domain/entities/my_app_model.dart';
+import 'package:themoviedb/presentation/widgets/app/provider/my_app_model.dart';
 import 'package:themoviedb/presentation/navigator/router.dart';
 import 'package:themoviedb/theme/theme.dart';
 

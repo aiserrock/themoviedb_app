@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/domain/entities/auth_model.dart';
+import 'package:themoviedb/presentation/widgets/auth_page/provider/auth_model.dart';
 import 'package:themoviedb/data/helpers/universal_inherits.dart';
 import 'package:themoviedb/presentation/pages/auth_page/auth.dart';
 import 'package:themoviedb/presentation/pages/movie_details_page/movie_details.dart';

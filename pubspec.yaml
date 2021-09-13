@@ -10,21 +10,33 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
   # Linter
   pedantic: ^1.11.1
 
   # Logic
   flutter_secure_storage: ^4.2.1
+  intl: ^0.17.0
 
   # UI
   cupertino_icons: ^1.0.2
 
   # Helpers
   spider: ^2.0.0
+  json_annotation: ^4.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # Logic
+  json_serializable: ^4.1.4
+
+  # Helpers
+  build_runner: ^2.1.2
+
 
 
 flutter:
