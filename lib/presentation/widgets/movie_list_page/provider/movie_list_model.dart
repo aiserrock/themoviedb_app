@@ -10,6 +10,9 @@ class MovieListModel extends ChangeNotifier {
   final _repository = MovieRemoteRepositoryImpl();
   final _movies = <Movie>[];
   late DateFormat _dateFormat;
+  late int _currentPage;
+  late int _totalPage;
+  var _isLoadingInProgress = false;
 
   List<Movie> get movies => List.unmodifiable(_movies);
 
@@ -25,15 +28,36 @@ class MovieListModel extends ChangeNotifier {
     final locale = Localizations.localeOf(context).toLanguageTag();
     if (_locale == locale) return;
     _locale = locale;
+    _currentPage = 0;
+    _totalPage = 1;
     _dateFormat = DateFormat.yMMMMd(locale);
     _movies.clear();
     _loadMovies();
   }
 
   Future<void> _loadMovies() async {
-    final moviesResponse =
-    await _repository.popularMovie(page: 1, locale: _locale);
-    _movies.addAll(moviesResponse.movies);
-    notifyListeners();
+    if (_isLoadingInProgress || _currentPage >= _totalPage) return;
+    _isLoadingInProgress = true;
+    final nextPage = _currentPage + 1;
+
+    try {
+      final moviesResponse =
+          await _repository.popularMovie(page: nextPage, locale: _locale);
+      _movies.addAll(moviesResponse.movies);
+
+      _currentPage = moviesResponse.page;
+      _totalPage = moviesResponse.totalPages;
+      _isLoadingInProgress = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoadingInProgress = false;
+      // need add snack
+    }
+  }
+
+  /// endless movie upload
+  void showedMovieAtIndex(int index) {
+    if (index < _movies.length - 1) return;
+    _loadMovies();
   }
 }

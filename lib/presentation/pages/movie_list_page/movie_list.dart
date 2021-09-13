@@ -22,6 +22,7 @@ class MovieList extends StatelessWidget {
           itemCount: model.movies.length,
           itemExtent: 163,
           itemBuilder: (BuildContext context, int index) {
+            model.showedMovieAtIndex(index);
             final movie = model.movies[index];
             return buildCard(context, movie, index, model);
           },
@@ -88,8 +89,7 @@ class CardWidget extends StatelessWidget {
         child: Row(
           children: [
             movie.posterPath != null
-                ? Image.network(ApiClient.imageUrl(movie.posterPath!),
-                    width: 95)
+                ? Image.network(ApiClient.imageUrl(movie.posterPath!))
                 : const SizedBox.shrink(),
             SizedBox(width: 15),
             Expanded(
