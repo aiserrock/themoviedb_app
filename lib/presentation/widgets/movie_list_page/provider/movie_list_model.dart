@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:themoviedb/data/repositories/movie_remote_repository.dart';
@@ -6,6 +8,8 @@ import 'package:themoviedb/domain/entities/popular_movie_response.dart';
 import 'package:themoviedb/presentation/navigator/router.dart';
 
 class MovieListModel extends ChangeNotifier {
+  /// в миллисекундах
+  static const TIMEOUT_SEARCH = 250;
   final _repository = MovieRemoteRepositoryImpl();
   final _movies = <Movie>[];
   late DateFormat _dateFormat;
@@ -14,6 +18,8 @@ class MovieListModel extends ChangeNotifier {
   var _isLoadingInProgress = false;
   String? _searchQuery;
   String _locale = '';
+  /// Optimization search query
+  Timer? searchDebounce;
 
   List<Movie> get movies => List.unmodifiable(_movies);
 
@@ -69,10 +75,24 @@ class MovieListModel extends ChangeNotifier {
     }
   }
 
+  /// метод отвечающий за таймер
+
   Future<void> searchMovie(String text) async {
-    final searchQuery = text.isNotEmpty ? text : null;
-    if (_searchQuery == _searchQuery) return;
-    await _resetList();
+    /// экономия трафика и убираем моргание экрана
+    /// мы отложили запросы пользователя на 1 сек
+    /// их может быть очень много и они выстраиваюстяя в очередь
+    /// после задержки выполняются поочереди
+    /// searchDebounce?.cancel() отменяет предыдущий таймер
+    /// в итоге остается только один таймер с нужным нам значением который выполнит
+    /// поисковой запрос через 1 секунду
+    /// ровно1  запрос а не много!
+    searchDebounce?.cancel();
+    searchDebounce = Timer(const Duration(milliseconds:TIMEOUT_SEARCH),() async{
+      final searchQuery = text.isNotEmpty ? text : null;
+      if (_searchQuery == _searchQuery) return;
+      _searchQuery = searchQuery;
+      await _resetList();
+    });
   }
 
   /// endless movie upload
