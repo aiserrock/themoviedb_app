@@ -2,17 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:themoviedb/data/repositories/movie_remote_repository.dart';
 import 'package:themoviedb/domain/entities/movie.dart';
+import 'package:themoviedb/domain/entities/popular_movie_response.dart';
 import 'package:themoviedb/presentation/navigator/router.dart';
 
 class MovieListModel extends ChangeNotifier {
-  String _locale = '';
-
   final _repository = MovieRemoteRepositoryImpl();
   final _movies = <Movie>[];
   late DateFormat _dateFormat;
   late int _currentPage;
   late int _totalPage;
   var _isLoadingInProgress = false;
+  String? _searchQuery;
+  String _locale = '';
 
   List<Movie> get movies => List.unmodifiable(_movies);
 
@@ -24,25 +25,38 @@ class MovieListModel extends ChangeNotifier {
     Navigator.of(context).pushNamed(Routs.MOVIE_DETAIL, arguments: id);
   }
 
-  void setupLocale(BuildContext context) {
+  Future<void> setupLocale(BuildContext context) async {
     final locale = Localizations.localeOf(context).toLanguageTag();
     if (_locale == locale) return;
     _locale = locale;
-    _currentPage = 0;
-    _totalPage = 1;
     _dateFormat = DateFormat.yMMMMd(locale);
-    _movies.clear();
-    _loadMovies();
+    await _resetList();
   }
 
-  Future<void> _loadMovies() async {
+  Future<void> _resetList() async {
+    _currentPage = 0;
+    _totalPage = 1;
+    _movies.clear();
+    await _loadNextPage();
+  }
+
+  Future<PopularMovieResponse> _loadMovies(int nextPage, String locale) async {
+    final query = _searchQuery;
+    if (query == null) {
+      return await _repository.popularMovie(page: nextPage, locale: _locale);
+    } else {
+      return await _repository.searchMovie(
+          page: nextPage, locale: _locale, query: query);
+    }
+  }
+
+  Future<void> _loadNextPage() async {
     if (_isLoadingInProgress || _currentPage >= _totalPage) return;
     _isLoadingInProgress = true;
     final nextPage = _currentPage + 1;
 
     try {
-      final moviesResponse =
-          await _repository.popularMovie(page: nextPage, locale: _locale);
+      final moviesResponse = await _loadMovies(nextPage, _locale);
       _movies.addAll(moviesResponse.movies);
 
       _currentPage = moviesResponse.page;
@@ -55,9 +69,15 @@ class MovieListModel extends ChangeNotifier {
     }
   }
 
+  Future<void> searchMovie(String text) async {
+    final searchQuery = text.isNotEmpty ? text : null;
+    if (_searchQuery == _searchQuery) return;
+    await _resetList();
+  }
+
   /// endless movie upload
   void showedMovieAtIndex(int index) {
     if (index < _movies.length - 1) return;
-    _loadMovies();
+    _loadNextPage();
   }
 }

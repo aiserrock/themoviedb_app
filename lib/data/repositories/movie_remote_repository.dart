@@ -26,6 +26,30 @@ class MovieRemoteRepositoryImpl {
     return result;
   }
 
+  Future<PopularMovieResponse> searchMovie({
+    required int page,
+    required String locale,
+    required String query,
+  }) async {
+    final parser = (dynamic json) {
+      final jsonMap = json as Map<String,dynamic>;
+      final response  = PopularMovieResponse.fromJson(jsonMap);
+      return response;
+    };
+    final result = clientHelper.get(
+      'search/movie',
+      parser,
+      <String, dynamic>{
+        'api_key': ApiClient.apiKey,
+        'page': page.toString(),
+        'language': locale,
+        'query': query,
+        'include_adult': true.toString(),
+      },
+    );
+    return result;
+  }
+
   Future<MovieDetails> movieDetails({
     required int movieId,
     required String locale,
