@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'converters/movie_dara_converter.dart';
+
 part 'movie.g.dart';
 
 /// api for this POJO: https://developers.themoviedb.org/3/movies/get-popular-movies
@@ -12,7 +14,7 @@ class Movie {
   final String? posterPath;
   final bool adult;
   final String overview;
-  @JsonKey(fromJson: Movie._releaseDateFromString)
+  @JsonKey(fromJson: convertDateFromString)
   final DateTime? releaseDate;
   final List<int> genreIds;
   final int id;
@@ -43,9 +45,4 @@ class Movie {
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
-
-  static DateTime? _releaseDateFromString(String? rawDate) {
-    if (rawDate == null || rawDate.isEmpty) return null;
-    return DateTime.tryParse(rawDate);
-  }
 }
