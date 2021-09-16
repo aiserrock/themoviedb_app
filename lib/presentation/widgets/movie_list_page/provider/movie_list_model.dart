@@ -75,8 +75,8 @@ class MovieListModel extends ChangeNotifier {
     }
   }
 
-  /// метод отвечающий за таймер
-
+  /// метод отвечающий за поиск, применяется таймер
+  /// для оптимизации использовнаия трафика
   Future<void> searchMovie(String text) async {
     /// экономия трафика и убираем моргание экрана
     /// мы отложили запросы пользователя на 1 сек
@@ -89,7 +89,7 @@ class MovieListModel extends ChangeNotifier {
     searchDebounce?.cancel();
     searchDebounce = Timer(const Duration(milliseconds:TIMEOUT_SEARCH),() async{
       final searchQuery = text.isNotEmpty ? text : null;
-      if (_searchQuery == _searchQuery) return;
+      if (_searchQuery == searchQuery) return;
       _searchQuery = searchQuery;
       await _resetList();
     });

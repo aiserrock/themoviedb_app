@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
+import 'package:themoviedb/presentation/pages/news_page/news.dart';
+import 'package:themoviedb/presentation/pages/tw_shows_page/tw_shows.dart';
 import 'package:themoviedb/presentation/widgets/movie_list_page/provider/movie_list_model.dart';
 
 import 'data/helpers/data_providers/session_data_provider.dart';
@@ -24,11 +26,6 @@ class _RootNavigationState extends State<RootNavigation> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     movieListModel.setupLocale(context);
@@ -41,25 +38,22 @@ class _RootNavigationState extends State<RootNavigation> {
         title: Text('TMDB'),
         centerTitle: true,
         actions: [
+          // temporary solution for deauthentication user
           IconButton(
             onPressed: () => SessionDataProvider().setSessionId(null),
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
       body: IndexedStack(
         index: _selectedTab,
         children: [
-          Text(
-            'Index 0: News',
-          ),
+          News(),
           NotifierProvider(
               isManagingModel: false,
               create: () => movieListModel,
               child: const MovieList()),
-          Text(
-            'Index 2: Tv shows',
-          ),
+          TwShows(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-// it's your bike. Need use Provider library
 
+/// this is a self-written provider
 class NotifierProvider<Model extends ChangeNotifier> extends StatefulWidget {
   final Model Function() create;
   final Widget child;
@@ -71,28 +71,17 @@ class _InheritedNotifierProvider<Model extends ChangeNotifier>
   }) : super(key: key, notifier: model, child: child);
 }
 
-class Provider<Model> extends InheritedWidget {
-  final Model model;
-
-  const Provider({
-    Key? key,
-    required this.model,
-    required Widget child,
-  }) : super(key: key, child: child);
-
-  static Model? watch<Model>(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<Provider<Model>>()?.model;
-  }
-
-  static Model? read<Model>(BuildContext context) {
-    final widget = context
-        .getElementForInheritedWidgetOfExactType<Provider<Model>>()
-        ?.widget;
-    return widget is Provider<Model> ? widget.model : null;
-  }
-
-  @override
-  bool updateShouldNotify(Provider old) {
-    return model != old;
-  }
-}
+// class Provider<Model> extends InheritedWidget {
+//   final Model model;
+//
+//   const Provider({
+//     Key? key,
+//     required this.model,
+//     required Widget child,
+//   }) : super(key: key, child: child);
+//
+//   @override
+//   bool updateShouldNotify(Provider old) {
+//     return model != old;
+//   }
+// }

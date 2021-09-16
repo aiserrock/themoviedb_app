@@ -10,13 +10,13 @@ class ApiClientException implements Exception {
 }
 
 class ApiClient {
-  final _client = HttpClient();
   static const _host = 'https://api.themoviedb.org/3/';
-
   static const _imageUrl = 'https://image.tmdb.org/t/p/w500';
   static const apiKey = '73024877558036b4787e808716039caf';
 
   static String imageUrl(String path) => _imageUrl + path;
+
+  final _client = HttpClient();
 
   Future<T> get<T>(
     String path,

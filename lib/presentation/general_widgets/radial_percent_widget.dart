@@ -106,9 +106,9 @@ class MyPainter extends CustomPainter {
 
   Rect calculateArcsRect(Size size) {
     final linesMargin = 3;
-    final offest = lineWidth / 2 + linesMargin;
-    final arcRect = Offset(offest, offest) &
-        Size(size.width - offest * 2, size.height - offest * 2);
+    final offset = lineWidth / 2 + linesMargin;
+    final arcRect = Offset(offset, offset) &
+        Size(size.width - offset * 2, size.height - offset * 2);
     return arcRect;
   }
 

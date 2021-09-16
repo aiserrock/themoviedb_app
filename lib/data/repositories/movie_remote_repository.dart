@@ -1,8 +1,9 @@
 import 'package:themoviedb/data/helpers/api_client/api_client.dart';
 import 'package:themoviedb/domain/entities/movie_details.dart';
 import 'package:themoviedb/domain/entities/popular_movie_response.dart';
+import 'package:themoviedb/domain/repositories/movie_remote_repository.dart';
 
-class MovieRemoteRepositoryImpl {
+class MovieRemoteRepositoryImpl implements MovieRemoteRepository {
   final clientHelper = ApiClient();
 
   Future<PopularMovieResponse> popularMovie({

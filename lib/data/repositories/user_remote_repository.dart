@@ -1,6 +1,6 @@
 import 'package:themoviedb/data/helpers/api_client/api_client.dart';
 import 'package:themoviedb/domain/repositories/user_remote_repository.dart';
-
+/// Errors type
 /// 1.Expected errors
 /// 2.No internet connection
 ///

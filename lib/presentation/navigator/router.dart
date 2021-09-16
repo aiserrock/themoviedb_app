@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/presentation/pages/news_page/news.dart';
+import 'package:themoviedb/presentation/pages/tw_shows_page/tw_shows.dart';
 import 'package:themoviedb/presentation/widgets/auth_page/provider/auth_model.dart';
 import 'package:themoviedb/data/helpers/custom_provider.dart';
 import 'package:themoviedb/presentation/pages/auth_page/auth.dart';
@@ -12,6 +14,8 @@ class Routs {
   static const ROOT = '/';
   static const MOVIE_DETAIL = '/movie_list_page/movie_detail_page';
   static const MOVIE_LIST = '/movie_list_page';
+  static const NEWS ='/news';
+  static const TW_SHOWS ='/tw_shows';
 
   static String initialRoute(bool isAuth) => isAuth ? Routs.ROOT : Routs.AUTH;
 }
@@ -21,6 +25,8 @@ final routes = <String, WidgetBuilder>{
   Routs.ROOT: (_) => RootNavigation(),
   Routs.AUTH: (_) => NotifierProvider(create: () => AuthModel(), child: Auth()),
   Routs.MOVIE_LIST: (_) => MovieList(),
+  Routs.NEWS: (_) => News(),
+  Routs.TW_SHOWS: (_) => TwShows(),
 };
 
 /// Роуты, в которые необходимо передавать данные.
