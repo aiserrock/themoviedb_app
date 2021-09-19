@@ -10,6 +10,9 @@ class MovieDetailsModel extends ChangeNotifier {
   String _locale ='';
   late DateFormat _dateFormat;
 
+  String stringFromDate(DateTime? date) =>
+      date != null ? _dateFormat.format(date) : '';
+
   MovieDetails? get movieDetails => _movieDetails;
 
   MovieDetailsModel(this.movieId);
