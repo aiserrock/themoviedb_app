@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:themoviedb/domain/entities/movie_details_credits.dart';
 
 import 'converters/movie_dara_converter.dart';
 
@@ -37,33 +38,36 @@ class MovieDetails {
   final bool video;
   final double voteAverage;
   final int voteCount;
+  final MovieDetailsCredits credits;
 
-  MovieDetails(
-      {required this.adult,
-      this.backdropPath,
-      this.belongsToCollection,
-      required this.budget,
-      required this.genres,
-      this.homepage,
-      required this.id,
-      this.imdbId,
-      required this.originalLanguage,
-      required this.originalTitle,
-      this.overview,
-      required this.popularity,
-      this.posterPath,
-      required this.productionCompanies,
-      required this.productionCountries,
-      required this.releaseDate,
-      required this.revenue,
-      this.runtime,
-      required this.spokenLanguages,
-      required this.status,
-      this.tagline,
-      required this.title,
-      required this.video,
-      required this.voteAverage,
-      required this.voteCount});
+  MovieDetails({
+    required this.adult,
+    this.backdropPath,
+    this.belongsToCollection,
+    required this.budget,
+    required this.genres,
+    this.homepage,
+    required this.id,
+    this.imdbId,
+    required this.originalLanguage,
+    required this.originalTitle,
+    this.overview,
+    required this.popularity,
+    this.posterPath,
+    required this.productionCompanies,
+    required this.productionCountries,
+    required this.releaseDate,
+    required this.revenue,
+    this.runtime,
+    required this.spokenLanguages,
+    required this.status,
+    this.tagline,
+    required this.title,
+    required this.video,
+    required this.voteAverage,
+    required this.voteCount,
+    required this.credits,
+  });
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) =>
       _$MovieDetailsFromJson(json);
