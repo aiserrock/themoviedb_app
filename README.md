@@ -13,8 +13,9 @@ API: https://developers.themoviedb.org/3/movies/get-popular-movies
 ## Screenshots
 
 <p>
-<img src="https://github.com/aiserrock/themoviedb_app/blob/master/img/themoviedb_app1.jpg" alt="Screen 1" width="250">
-  <img src="https://github.com/aiserrock/themoviedb_app/blob/master/img/themoviedb_app2.jpg" alt="Screen 1" width="250">
+<img src="https://github.com/aiserrock/themoviedb_app/blob/master/img/themoviedb_app1.png" alt="Screen 1" width="250">
+  <img src="https://github.com/aiserrock/themoviedb_app/blob/master/img/themoviedb_app2.png" alt="Screen 1" width="250">
+  <img src="https://github.com/aiserrock/themoviedb_app/blob/master/img/themoviedb_app3.png" alt="Screen 1" width="250">
 </p>
 
 
