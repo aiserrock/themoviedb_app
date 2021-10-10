@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/Theme/app_button_style.dart';
-import 'package:themoviedb/presentation/widgets/auth_page/provider/auth_model.dart';
+import 'package:themoviedb/presentation/pages/auth_page/provider/auth_model.dart';
 import 'package:themoviedb/data/helpers/custom_provider.dart';
 
 class FormWidget extends StatelessWidget {

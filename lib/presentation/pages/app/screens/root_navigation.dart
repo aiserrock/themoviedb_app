@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/presentation/pages/movie_list_page/movie_list.dart';
-import 'package:themoviedb/presentation/pages/news_page/news.dart';
-import 'package:themoviedb/presentation/pages/tw_shows_page/tw_shows.dart';
-import 'package:themoviedb/presentation/widgets/movie_list_page/provider/movie_list_model.dart';
+import 'package:themoviedb/presentation/pages/movie_list_page/screens/movie_list.dart';
+import 'package:themoviedb/presentation/pages/news_page/screens/news.dart';
+import 'package:themoviedb/presentation/pages/tw_shows_page/screens/tw_shows.dart';
+import 'package:themoviedb/presentation/pages/movie_list_page/provider/movie_list_model.dart';
 
-import 'data/helpers/data_providers/session_data_provider.dart';
-import 'data/helpers/custom_provider.dart';
+import '../../../../data/helpers/data_providers/session_data_provider.dart';
+import '../../../../data/helpers/custom_provider.dart';
 
 class RootNavigation extends StatefulWidget {
   const RootNavigation({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:themoviedb/presentation/widgets/app/provider/my_app_model.dart';
+import 'package:themoviedb/presentation/pages/app/provider/my_app_model.dart';
 import 'package:themoviedb/presentation/navigator/router.dart';
 import 'package:themoviedb/theme/theme.dart';
 

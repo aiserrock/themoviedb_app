@@ -4,7 +4,7 @@ import 'package:themoviedb/data/helpers/custom_provider.dart';
 import 'package:themoviedb/domain/entities/movie_details_credits.dart';
 import 'package:themoviedb/presentation/general_widgets/radial_percent_widget.dart';
 import 'package:themoviedb/presentation/navigator/router.dart';
-import 'package:themoviedb/presentation/widgets/movie_details_page/provider/movie_details_model.dart';
+import 'package:themoviedb/presentation/pages/movie_details_page/provider/movie_details_model.dart';
 
 class MovieDetailsMainInfoWidget extends StatelessWidget {
   const MovieDetailsMainInfoWidget({Key? key}) : super(key: key);

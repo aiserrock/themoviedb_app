@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/data/helpers/custom_provider.dart';
-import 'package:themoviedb/presentation/widgets/movie_details_page/movie_details_main_info.dart';
-import 'package:themoviedb/presentation/widgets/movie_details_page/movie_details_main_screen_cast_widget.dart';
-import 'package:themoviedb/presentation/widgets/movie_details_page/provider/movie_details_model.dart';
+import 'package:themoviedb/presentation/pages/movie_details_page/widgets/movie_details_main_info.dart';
+import 'package:themoviedb/presentation/pages/movie_details_page/widgets/movie_details_main_screen_cast_widget.dart';
+import 'package:themoviedb/presentation/pages/movie_details_page/provider/movie_details_model.dart';
 
 class MovieDetails extends StatefulWidget {
   const MovieDetails({

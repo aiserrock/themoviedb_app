@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:themoviedb/data/helpers/api_client/api_client.dart';
 import 'package:themoviedb/data/helpers/custom_provider.dart';
 import 'package:themoviedb/domain/entities/movie.dart';
-import 'package:themoviedb/presentation/widgets/movie_list_page/SearchWidget.dart';
-import 'package:themoviedb/presentation/widgets/movie_list_page/provider/movie_list_model.dart';
+import 'package:themoviedb/presentation/pages/movie_list_page/widgets/SearchWidget.dart';
+import 'package:themoviedb/presentation/pages/movie_list_page/provider/movie_list_model.dart';
 
 class MovieList extends StatelessWidget {
   const MovieList({Key? key}) : super(key: key);

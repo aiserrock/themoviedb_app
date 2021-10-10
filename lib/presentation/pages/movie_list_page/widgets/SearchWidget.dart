@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/presentation/widgets/movie_list_page/provider/movie_list_model.dart';
+import 'package:themoviedb/presentation/pages/movie_list_page/provider/movie_list_model.dart';
 
 class SearchWidget extends StatelessWidget {
   const SearchWidget({

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:themoviedb/data/helpers/api_client/api_client.dart';
 import 'package:themoviedb/data/helpers/custom_provider.dart';
-import 'package:themoviedb/presentation/widgets/movie_details_page/provider/movie_details_model.dart';
+import 'package:themoviedb/presentation/pages/movie_details_page/provider/movie_details_model.dart';
 
 class MovieDetailsMainScreenCastWidget extends StatelessWidget {
   const MovieDetailsMainScreenCastWidget({Key? key}) : super(key: key);
