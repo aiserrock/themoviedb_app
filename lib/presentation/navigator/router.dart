@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/presentation/pages/movie_trailer_page/movei_trailer.dart';
 import 'package:themoviedb/presentation/pages/news_page/news.dart';
 import 'package:themoviedb/presentation/pages/tw_shows_page/tw_shows.dart';
 import 'package:themoviedb/presentation/widgets/auth_page/provider/auth_model.dart';
@@ -14,8 +15,9 @@ class Routs {
   static const ROOT = '/';
   static const MOVIE_DETAIL = '/movie_list_page/movie_detail_page';
   static const MOVIE_LIST = '/movie_list_page';
-  static const NEWS ='/news';
-  static const TW_SHOWS ='/tw_shows';
+  static const NEWS = '/news';
+  static const TW_SHOWS = '/tw_shows';
+  static const MOVIE_TRAILER = '/movie_details/trailer';
 
   static String initialRoute(bool isAuth) => isAuth ? Routs.ROOT : Routs.AUTH;
 }
@@ -42,6 +44,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           create: () => MovieDetailsModel(movieId),
           child: const MovieDetails(),
         ),
+      );
+    case Routs.MOVIE_TRAILER:
+      final arguments = settings.arguments;
+      final youtubeKey = arguments is String ? arguments : '';
+      return MaterialPageRoute(
+        builder: (context) => MovieTrailerWidget(youtubeKey: youtubeKey),
       );
     default:
       throw Exception("Route with name ${settings.name} doesn't exists");

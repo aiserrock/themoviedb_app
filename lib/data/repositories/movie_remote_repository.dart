@@ -64,7 +64,7 @@ class MovieRemoteRepositoryImpl implements MovieRemoteRepository {
       'movie/$movieId',
       parser,
       <String, dynamic>{
-        'append_to_response':'credits',
+        'append_to_response':'credits,videos',
         'api_key': ApiClient.apiKey,
         'language': locale,
       },

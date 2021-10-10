@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:themoviedb/domain/entities/movie_details_credits.dart';
+import 'package:themoviedb/domain/entities/movie_details_video.dart';
 
 import 'converters/movie_dara_converter.dart';
 
@@ -39,6 +40,7 @@ class MovieDetails {
   final double voteAverage;
   final int voteCount;
   final MovieDetailsCredits credits;
+  final MovieDetailsVideo videos;
 
   MovieDetails({
     required this.adult,
@@ -67,6 +69,7 @@ class MovieDetails {
     required this.voteAverage,
     required this.voteCount,
     required this.credits,
+    required this.videos,
   });
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) =>
