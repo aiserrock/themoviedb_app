@@ -1,5 +1,8 @@
 import 'package:themoviedb/data/helpers/api_client/api_client.dart';
+import 'package:themoviedb/domain/entities/movie_details.dart';
 import 'package:themoviedb/domain/repositories/user_remote_repository.dart';
+/// API: 1 auth: https://developers.themoviedb.org/3/authentication/how-do-i-generate-a-session-id
+///
 /// Errors type
 /// 1.Expected errors
 /// 2.No internet connection
@@ -82,6 +85,26 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
       parser,
       parameters,
       <String, dynamic>{'api_key':ApiClient.apiKey},
+    );
+    return result;
+  }
+
+  /// https://developers.themoviedb.org/3/account/get-account-details
+  Future<int> getAccountInfo({
+    required String sessionId,
+  }) async {
+    final parser = (dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final result = jsonMap['id'] as int;
+      return result;
+    };
+    final result = clientHelper.get(
+      '/account',
+      parser,
+      <String, dynamic>{
+        'session_id': sessionId,
+        'api_key': ApiClient.apiKey,
+      },
     );
     return result;
   }

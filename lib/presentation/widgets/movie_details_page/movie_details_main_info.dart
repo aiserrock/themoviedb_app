@@ -57,6 +57,15 @@ class _TopPosterWidget extends StatelessWidget {
                 ? Image.network(ApiClient.imageUrl(posterPath))
                 : SizedBox.shrink(),
           ),
+          Positioned(
+            top: 5,
+            right: 5,
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                  model?.isFavorite == true ? Icons.favorite : Icons.favorite_outline),
+            ),
+          ),
         ],
       ),
     );
