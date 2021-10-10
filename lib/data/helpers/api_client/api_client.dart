@@ -57,6 +57,9 @@ class ApiClient {
       request.headers.contentType = ContentType.json;
       request.write(jsonEncode(bodyParameters));
       final response = await request.close();
+      if(response.statusCode == 201){
+        return 1 as T;
+      }
       final dynamic json = (await response.jsonDecode());
 
       _validateResponse(response, json);
