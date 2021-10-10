@@ -2,9 +2,24 @@ import 'package:themoviedb/data/helpers/api_client/api_client.dart';
 import 'package:themoviedb/domain/entities/movie_details.dart';
 import 'package:themoviedb/domain/entities/popular_movie_response.dart';
 import 'package:themoviedb/domain/repositories/movie_remote_repository.dart';
+
 /// API 1 movies : https://developers.themoviedb.org/3/movies/get-movie-details
 ///     2 check favorite movies (need session id) : https://developers.themoviedb.org/3/account/get-favorite-movies
 ///
+///
+enum MediaType { Movie, TV }
+
+extension MediaTypeAsString on MediaType {
+  String asString() {
+    switch (this) {
+      case MediaType.Movie:
+        return 'movie';
+      case MediaType.TV:
+        return 'tv';
+    }
+  }
+}
+
 class MovieRemoteRepositoryImpl implements MovieRemoteRepository {
   final clientHelper = ApiClient();
 
@@ -100,14 +115,16 @@ class MovieRemoteRepositoryImpl implements MovieRemoteRepository {
 
   /// https://developers.themoviedb.org/3/account/mark-as-favorite
   Future<String> markAsFavorite({
-    required String username,
-    required String password,
-    required String requestToken,
+    required int accountId,
+    required String sessionId,
+    required MediaType mediaType,
+    required String mediaId,
+    required bool isFavorite,
   }) async {
     final parameters = <String, dynamic>{
-      'username': username,
-      'password': password,
-      'request_token': requestToken,
+      'media_type': mediaType.asString(),
+      'media_id': mediaId,
+      'favorite': isFavorite.toString(),
     };
     final parser = (dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
@@ -115,10 +132,13 @@ class MovieRemoteRepositoryImpl implements MovieRemoteRepository {
       return token;
     };
     final result = clientHelper.post(
-      'authentication/token/validate_with_login',
+      '/account/$accountId/favorite',
       parser,
       parameters,
-      <String, dynamic>{'api_key': ApiClient.apiKey},
+      <String, dynamic>{
+        'api_key': ApiClient.apiKey,
+        'session_id': sessionId,
+      },
     );
     return result;
   }
