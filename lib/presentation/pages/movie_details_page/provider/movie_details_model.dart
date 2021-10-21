@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:themoviedb/data/helpers/api_client/api_client.dart';
 import 'package:themoviedb/data/helpers/data_providers/session_data_provider.dart';
 import 'package:themoviedb/data/repositories/movie_remote_repository.dart';
 import 'package:themoviedb/domain/entities/movie_details.dart';
@@ -12,9 +13,9 @@ class MovieDetailsModel extends ChangeNotifier {
   MovieDetails? _movieDetails;
   String _locale = '';
   late DateFormat _dateFormat;
+  Future<void>? Function()? onSessionExpired;
 
-  String stringFromDate(DateTime? date) =>
-      date != null ? _dateFormat.format(date) : '';
+  String stringFromDate(DateTime? date) => date != null ? _dateFormat.format(date) : '';
 
   MovieDetails? get movieDetails => _movieDetails;
 
@@ -31,13 +32,15 @@ class MovieDetailsModel extends ChangeNotifier {
   }
 
   Future<void> loadDetails() async {
-    _movieDetails =
-        await _repository.movieDetails(movieId: movieId, locale: _locale);
-    final sessionId = await _sessionDataProvider.getSessionId();
-    if (sessionId != null) {
-      _isFavorite = await _repository.isFavorite(movieId, sessionId);
+    try {
+      _movieDetails = await _repository.movieDetails(movieId: movieId, locale: _locale);
+      final sessionId = await _sessionDataProvider.getSessionId();
+      if (sessionId != null) {
+        _isFavorite = await _repository.isFavorite(movieId, sessionId);
+      }
+    } on ApiClientException catch (e) {
+      _handleApiClientException(e);
     }
-    notifyListeners();
   }
 
   Future<void> toggleFavorite() async {
@@ -49,12 +52,26 @@ class MovieDetailsModel extends ChangeNotifier {
     _isFavorite = !_isFavorite;
     notifyListeners();
 
-    await _repository.markAsFavorite(
-      accountId: accountId,
-      sessionId: sessionId,
-      mediaType: MediaType.Movie,
-      mediaId: movieId,
-      isFavorite: _isFavorite,
-    );
+    try {
+      await _repository.markAsFavorite(
+        accountId: accountId,
+        sessionId: sessionId,
+        mediaType: MediaType.Movie,
+        mediaId: movieId,
+        isFavorite: _isFavorite,
+      );
+    } on ApiClientException catch (e) {
+      _handleApiClientException(e);
+    }
+  }
+
+  Future<void> _handleApiClientException(ApiClientException exeption) async {
+    switch (exeption.type) {
+      case ApiClientExceptionType.SessionExpired:
+        await onSessionExpired?.call();
+        break;
+      default:
+        print(exeption);
+    }
   }
 }

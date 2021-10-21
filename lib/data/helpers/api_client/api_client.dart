@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-enum ApiClientExceptionType { Network, Auth, Other }
+enum ApiClientExceptionType { Network, Auth, Other, SessionExpired }
 
 class ApiClientException implements Exception {
   final ApiClientExceptionType type;
@@ -57,7 +57,7 @@ class ApiClient {
       request.headers.contentType = ContentType.json;
       request.write(jsonEncode(bodyParameters));
       final response = await request.close();
-      if(response.statusCode == 201){
+      if (response.statusCode == 201) {
         return 1 as T;
       }
       final dynamic json = (await response.jsonDecode());
@@ -100,6 +100,8 @@ void _validateResponse(HttpClientResponse response, dynamic json) {
     final code = status is int ? status : 0;
     if (code == 30) {
       throw ApiClientException(ApiClientExceptionType.Auth);
+    } else if (code == 3) {
+      throw ApiClientException(ApiClientExceptionType.SessionExpired);
     } else {
       throw ApiClientException(ApiClientExceptionType.Other);
     }
